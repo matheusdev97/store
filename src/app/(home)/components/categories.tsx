@@ -1,5 +1,5 @@
 import { prismaClient } from "@/lib/prisma";
-import CategoryItem from "./categories-item";
+import CategoryItem from "./category-item";
 
 const Categories = async () => {
   const categories = await prismaClient.category.findMany({});
