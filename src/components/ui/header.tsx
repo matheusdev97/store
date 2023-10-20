@@ -18,22 +18,26 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "./sheet";
-import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar, AvatarImage } from "./avatar";
+import { AvatarFallback } from "@radix-ui/react-avatar";
 import { Separator } from "./separator";
+import Link from "next/link";
+import Cart from "./cart";
 
 const Header = () => {
   const { status, data } = useSession();
+
   const handleLoginClick = async () => {
     await signIn();
   };
+
   const handleLogoutClick = async () => {
     await signOut();
   };
 
   return (
-    <Card className="flex justify-between p-[1.875rem]">
+    <Card className="flex items-center justify-between p-[1.875rem]">
       <Sheet>
         <SheetTrigger asChild>
           <Button size="icon" variant="outline">
@@ -66,6 +70,7 @@ const Header = () => {
               <Separator />
             </div>
           )}
+
           <div className="mt-4 flex flex-col gap-2">
             {status === "unauthenticated" && (
               <Button
@@ -88,16 +93,30 @@ const Header = () => {
                 Fazer Logout
               </Button>
             )}
-          <Link href="/">
-            <Button variant="outline" className="w-full justify-start gap-2">
-              <HomeIcon size={16} />
-              Início
-            </Button>
-            </Link>
-            <Button variant="outline" className="w-full justify-start gap-2">
-              <PercentIcon size={16} />
-              Ofertas
-            </Button>
+
+            <SheetClose asChild>
+              <Link href="/">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2"
+                >
+                  <HomeIcon size={16} />
+                  Início
+                </Button>
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link href="/deals">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2"
+                >
+                  <PercentIcon size={16} />
+                  Ofertas
+                </Button>
+              </Link>
+            </SheetClose>
 
             <SheetClose asChild>
               <Link href="/catalog">
@@ -120,9 +139,17 @@ const Header = () => {
         </h1>
       </Link>
 
-      <Button size="icon" variant="outline">
-        <ShoppingCartIcon />
-      </Button>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button size="icon" variant="outline">
+            <ShoppingCartIcon />
+          </Button>
+        </SheetTrigger>
+
+        <SheetContent className="w-[350px]">
+          <Cart />
+        </SheetContent>
+      </Sheet>
     </Card>
   );
 };
