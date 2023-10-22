@@ -6,7 +6,7 @@ const Categories = async () => {
 
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-      {categories.map((category: { id: any; }) => (
+      {categories.map((category) => (
         <CategoryItem key={category.id} category={category} />
       ))}
     </div>
